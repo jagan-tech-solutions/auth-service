@@ -1,2 +1,2 @@
-# digit-repo-template
+# simple-repo-template
 template
