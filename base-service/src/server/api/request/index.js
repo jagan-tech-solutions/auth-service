@@ -76,9 +76,9 @@ const httpRequest = async (
         ":: CODE :: " +
         errorResponse.status +
         ":: ERROR :: " +
-        errorResponse.data.Errors[0].code || error
+        errorResponse?.data?.Errors?.[0]?.code || error
     );
-    logger.error(":: ERROR STACK :: " + error.stack || error);
+    logger.error(":: ERROR STACK :: " + error?.stack || error);
     throwError(
       "error occured while making request to " +
         getServiceName(_url) +

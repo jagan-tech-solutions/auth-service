@@ -11,6 +11,7 @@ var config = require("./config");
 var musterRouter = require("./routes/muster");
 var authRouter = require("./routes/auth");
 
+var mdmsRouter = require("./routes/mdms");
 var searcherRouter = require("./routes/searcher");
 var { listenConsumer } = require("./kafka/consumer");
 const {
@@ -44,6 +45,8 @@ app.use(requestMiddleware);
 app.use(cacheMiddleware);
 app.use(config.app?.contextPath + "/muster", musterRouter);
 app.use(config.app?.contextPath + "/auth", authRouter);
+
+app.use(config.app?.contextPath + "/mdms", mdmsRouter);
 
 app.use(config.app.contextPath + "/searcher", searcherRouter);
 
