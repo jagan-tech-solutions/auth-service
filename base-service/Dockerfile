@@ -1,15 +1,39 @@
-FROM egovio/alpine-node-builder-14:yarn
+# FROM egovio/alpine-node-builder-14:yarn
 
-ARG WORK_DIR
-ENV npm_config_cache=/tmp
+# ARG WORK_DIR
+# ENV npm_config_cache=/tmp
+# WORKDIR /app
+
+# COPY ${WORK_DIR}/package.json ${WORK_DIR}/yarn.lock .
+
+# RUN yarn
+
+# RUN ls -lah
+
+# COPY ${WORK_DIR}/src .
+
+# CMD ["yarn", "start"]
+
+
+
+
+# Use the official Node.js 16 image as the base image
+FROM node:16
+
+# Set the working directory inside the container
 WORKDIR /app
 
-COPY ${WORK_DIR}/package.json ${WORK_DIR}/yarn.lock .
+# Copy package.json and package-lock.json to the container
+COPY package*.json ./
 
-RUN yarn
+# Install project dependencies
+RUN npm install
 
-RUN ls -lah
+# Copy the rest of your application source code to the container
+COPY . .
 
-COPY ${WORK_DIR}/src .
+# Expose a port if your Node.js application listens on a specific port
+# EXPOSE 3000
 
-CMD ["yarn", "start"]
+# Define the command to run your Node.js application
+CMD [ "npm", "start" ]
