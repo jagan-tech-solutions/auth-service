@@ -33,7 +33,7 @@ RUN npm install
 COPY . .
 
 # Expose a port if your Node.js application listens on a specific port
-EXPOSE 3000
+EXPOSE 8080
 
 # Define the command to run your Node.js application
 CMD [ "npm", "start" ]
