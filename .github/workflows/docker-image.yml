@@ -16,12 +16,17 @@ jobs:
     - uses: actions/checkout@v3
     - name: Build the Docker image
       working-directory: ./base-service
-      run: docker build . --file Dockerfile --tag jaganegov/mdms:$(date +%s)
+      run: docker build . --file Dockerfile --tag jaganegov/mdms:latest
 
-    - name: Login to Docker Hub
-      run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
-    
-    - name: Push Docker Image
+    - name: Login to Docker Hub and Push Docker Image
       working-directory: ./base-service
-      run: docker push jaganegov/mdms:$(date +%s)
+      env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      run: |      
+          # Authenticate with Docker Hub
+          echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+          
+          # Push the image to Docker Hub
+          docker push jaganegov/mdms:latest
 
