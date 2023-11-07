@@ -1,15 +1,7 @@
 var config = require("../config");
 var url = require("url");
-const { Pool } = require("pg");
 const { httpRequest } = require("./request");
 
-const pool = new Pool({
-  user: config.DB_USER,
-  host: config.DB_HOST,
-  database: config.DB_NAME,
-  password: config.DB_PASSWORD,
-  port: config.DB_PORT,
-});
 
 var auth_token = config.auth_token;
 

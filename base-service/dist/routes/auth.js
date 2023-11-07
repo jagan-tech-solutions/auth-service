@@ -26,11 +26,13 @@ var _require3 = require("../api/request"),
   httpRequest = _require3.httpRequest;
 var _require4 = require("console"),
   log = _require4.log;
+var _require5 = require("../database"),
+  query = _require5.query;
 
 // https://raw.githubusercontent.com/jk-techsolutions/master-data/raw/master/data/in/ka/test/sample.json
 router.post("/getLocalization", asyncMiddleware( /*#__PURE__*/function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(req, res, next) {
-    var tenantId, module, locale, messages;
+    var tenantId, module, locale;
     return _regeneratorRuntime().wrap(function _callee$(_context) {
       while (1) switch (_context.prev = _context.next) {
         case 0:
@@ -39,15 +41,19 @@ router.post("/getLocalization", asyncMiddleware( /*#__PURE__*/function () {
           locale = req.query.locale; // if(!locResponse|| !locResponse?.messages || locResponse?.messages?.length==0){
           //   throwError("LOCALISATION NOT FOUND","LOCALISATION NOT FOUND",400)
           // }
-          // let messages={}
-          // locResponse.messages.map(message=>{messages[message.code]=message.message})
-          // let messages=locResponse.messages.map(message=>({code:message.code,message:message.message}))
-          messages = [{
-            code: "Dummy"
-          }];
-          sendResponse(res, {
-            messages: messages
-          }, req);
+          _context.next = 5;
+          return query("SELECT * from company", function (err, response) {
+            if (err) {
+              console.log(err.stack);
+            } else {
+              var _response$rows;
+              console.log(response.rows);
+              sendResponse(res, {
+                searchResponse: response === null || response === void 0 ? void 0 : response.rows,
+                count: response === null || response === void 0 ? void 0 : (_response$rows = response.rows) === null || _response$rows === void 0 ? void 0 : _response$rows.length
+              }, req);
+            }
+          });
         case 5:
         case "end":
           return _context.stop();

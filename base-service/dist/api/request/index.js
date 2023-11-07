@@ -69,8 +69,7 @@ var httpRequest = /*#__PURE__*/function () {
           responseType = _args.length > 4 && _args[4] !== undefined ? _args[4] : "";
           headers = _args.length > 5 && _args[5] !== undefined ? _args[5] : defaultheader;
           _context.prev = 3;
-          console.log(_url, '_url');
-          _context.next = 7;
+          _context.next = 6;
           return Axios({
             method: _method,
             url: _url,
@@ -79,30 +78,30 @@ var httpRequest = /*#__PURE__*/function () {
             headers: headers,
             responseType: responseType
           });
-        case 7:
+        case 6:
           response = _context.sent;
           responseStatus = parseInt(get(response, "status"), 10);
           logger.info("INTER-SERVICE :: SUCCESS :: " + getServiceName(_url) + ":: CODE :: " + responseStatus);
           if (!(responseStatus === 200 || responseStatus === 201)) {
-            _context.next = 12;
+            _context.next = 11;
             break;
           }
           return _context.abrupt("return", response.data);
-        case 12:
-          _context.next = 20;
+        case 11:
+          _context.next = 19;
           break;
-        case 14:
-          _context.prev = 14;
+        case 13:
+          _context.prev = 13;
           _context.t0 = _context["catch"](3);
           errorResponse = _context.t0.response;
-          logger.error("INTER-SERVICE :: FAILURE :: " + getServiceName(_url) + ":: CODE :: " + errorResponse.status + ":: ERROR :: " + JSON.stringify(errorResponse), (errorResponse === null || errorResponse === void 0 ? void 0 : (_errorResponse$data = errorResponse.data) === null || _errorResponse$data === void 0 ? void 0 : (_errorResponse$data$E = _errorResponse$data.Errors) === null || _errorResponse$data$E === void 0 ? void 0 : (_errorResponse$data$E2 = _errorResponse$data$E[0]) === null || _errorResponse$data$E2 === void 0 ? void 0 : _errorResponse$data$E2.code) || _context.t0);
+          logger.error("INTER-SERVICE :: FAILURE :: " + getServiceName(_url) + ":: CODE :: " + errorResponse.status + ":: ERROR :: " + (errorResponse === null || errorResponse === void 0 ? void 0 : (_errorResponse$data = errorResponse.data) === null || _errorResponse$data === void 0 ? void 0 : (_errorResponse$data$E = _errorResponse$data.Errors) === null || _errorResponse$data$E === void 0 ? void 0 : (_errorResponse$data$E2 = _errorResponse$data$E[0]) === null || _errorResponse$data$E2 === void 0 ? void 0 : _errorResponse$data$E2.code) || _context.t0);
           logger.error(":: ERROR STACK :: " + (_context.t0 === null || _context.t0 === void 0 ? void 0 : _context.t0.stack) || _context.t0);
           throwError("error occured while making request to " + getServiceName(_url) + ": error response :" + (errorResponse ? parseInt(errorResponse.status, 10) : _context.t0.message), errorResponse.data.Errors[0].code, errorResponse.status);
-        case 20:
+        case 19:
         case "end":
           return _context.stop();
       }
-    }, _callee, null, [[3, 14]]);
+    }, _callee, null, [[3, 13]]);
   }));
   return function httpRequest(_x, _x2, _x3) {
     return _ref.apply(this, arguments);

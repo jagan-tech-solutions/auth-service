@@ -9,7 +9,7 @@ const NodeCache = require("node-cache");
    delete check interval. 0 = no periodic check.
 
 */
-const appCache = new NodeCache({ stdTTL: 100, checkperiod: 120 });
+const appCache = new NodeCache({ stdTTL: 5*60*100, checkperiod: 120 });
 
 /* 
 Send The Error Response back to client with proper response code 

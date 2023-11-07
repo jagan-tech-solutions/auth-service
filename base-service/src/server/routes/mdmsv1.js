@@ -12,11 +12,9 @@ const { throwError, sendResponse } = require("../utils");
 const { httpRequest } = require("../api/request");
 const { log } = require("console");
 
-
 router.post(
-  "/v1/_search",
+  "/_search",
   asyncMiddleware(async function (req, res, next) {
-   
     const MdmsCriteria = req?.body?.MdmsCriteria;
     const { tenantId, moduleDetails } = MdmsCriteria;
     const { moduleName, masterDetails } = moduleDetails?.[0] || {};

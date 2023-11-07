@@ -18,7 +18,7 @@ var NodeCache = require("node-cache");
 
 */
 var appCache = new NodeCache({
-  stdTTL: 100,
+  stdTTL: 5 * 60 * 100,
   checkperiod: 120
 });
 

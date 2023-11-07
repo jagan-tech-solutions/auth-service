@@ -10,8 +10,9 @@ var logger = require("morgan");
 var config = require("./config");
 var musterRouter = require("./routes/muster");
 var authRouter = require("./routes/auth");
+var userRouter = require("./routes/userv1");
 
-var mdmsRouter = require("./routes/mdms");
+var mdmsRouter = require("./routes/mdmsv1");
 var searcherRouter = require("./routes/searcher");
 var { listenConsumer } = require("./kafka/consumer");
 const {
@@ -21,6 +22,7 @@ const {
   errorResponder,
   throwError,
 } = require("./utils");
+const { initialiseTables } = require("./database");
 let dataConfigUrls = config.configs.DATA_CONFIG_URLS;
 let formatConfigUrls = config.configs.DATA_CONFIG_URLS;
 
@@ -32,7 +34,7 @@ app.disable("x-powered-by");
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "jade");
-
+initialiseTables();
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -45,8 +47,9 @@ app.use(requestMiddleware);
 app.use(cacheMiddleware);
 app.use(config.app?.contextPath + "/muster", musterRouter);
 app.use(config.app?.contextPath + "/auth", authRouter);
+app.use(config.app?.contextPath + "/user/v1", userRouter);
 
-app.use(config.app?.contextPath + "/mdms", mdmsRouter);
+app.use(config.app?.contextPath + "/mdms/v1", mdmsRouter);
 
 app.use(config.app.contextPath + "/searcher", searcherRouter);
 
@@ -61,8 +64,6 @@ app.use(errorResponder);
 // Attach the fallback Middleware
 // function which sends back the response for invalid paths)
 app.use(invalidPathHandler);
-
-
 
 listenConsumer();
 module.exports = app;
