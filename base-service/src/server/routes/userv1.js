@@ -9,7 +9,7 @@ const ORG = "jk-techsolutions";
 const REPO = "master-data";
 const BRANCH = "master";
 const { asyncMiddleware } = require("../middlewares/asyncMiddleware");
-const { throwError, sendResponse } = require("../utils");
+const { throwError, sendResponse, snakeToCamel, getDefaultPagination, camelToSnake } = require("../utils");
 const { httpRequest } = require("../api/request");
 const { log } = require("console");
 const { query } = require("../database");
@@ -26,14 +26,36 @@ router.post(
     // if(!locResponse|| !locResponse?.messages || locResponse?.messages?.length==0){
     //   throwError("LOCALISATION NOT FOUND","LOCALISATION NOT FOUND",400)
     // }
-    await query("SELECT * from jk_app_users", (err, response) => {
+   let defaultQuery="SELECT id ,  user_name ,  name ,  mobile_number ,   email_id ,  type ,  active ,created_at ,updated_at  from jk_app_users";
+   if(req?.body?.user){
+    const user= req?.body?.user|{};
+    const filterQuery=` where`; 
+    Object.keys(user).map(key=>{
+      filterQuery+=`${camelToSnake(key)} = ${user?.[key]}`
+    })
+    defaultQuery+=filterQuery;
+
+   }
+   if(req?.body?.pagination){
+const pagination=req?.body?.pagination||getDefaultPagination();
+const paginationQuery=` ORDER BY ${camelToSnake(pagination?.sortBy)} ${pagination?.order}
+LIMIT ${pagination?.limit}
+OFFSET ${pagination?.offset};`
+defaultQuery+=paginationQuery;
+   }
+
+    await query(defaultQuery, (err, response) => {
       if (err) {
         logger.error(err.stack);
         throwError("INTERNAL SERVER ERROR", "INTERNAL SERVER ERROR", 400);
       } else {
         sendResponse(
           res,
-          { searchResponse: response?.rows, count: response?.rows?.length },
+          { searchResponse: response?.rows?.map(rowObject=>  Object.keys(rowObject).reduce((prev,curr)=>{
+            prev[snakeToCamel(curr)]=rowObject?.[curr];
+            return prev;
+          },{}
+            )), count: response?.rows?.length },
           req
         );
       }
@@ -59,10 +81,10 @@ router.post(
         VALUES ($1, $2, $3, $4, $5, $6, $7)`;
       const values = [
         uuidv4(),
-        user.user_name,
+        user.userName,
         user.name,
-        user.mobile_number,
-        user.email_id,
+        user.mobileNumber,
+        user.emailId,
         user.type,
         user.active,
       ];

@@ -39,6 +39,7 @@ var pool = new Pool(connectionObject);
 
 // Expose method, log query, initiate trace etc at single point later on.
 var query = function query(text, params) {
+  _logger.logger.debug(text, params);
   return pool.query(text, params);
 };
 exports.query = query;

@@ -39,4 +39,6 @@ export const initialiseTables = () => {
 const pool = new Pool(connectionObject);
 
 // Expose method, log query, initiate trace etc at single point later on.
-export const query = (text, params) => pool.query(text, params);
+export const query = (text, params) =>{
+  logger.debug(text, params)
+  return pool.query(text, params)};

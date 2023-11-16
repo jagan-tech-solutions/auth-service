@@ -106,6 +106,26 @@ var errorResponder = function errorResponder(error, request, response, next) {
   var status = error.status || 500;
   response.status(status).send(getErrorResponse(error.code, error.message));
 };
+var snakeToCamel = function snakeToCamel(str) {
+  return str.replace(/_([a-z])/g, function (match, group1) {
+    return group1.toUpperCase();
+  });
+};
+var camelToSnake = function camelToSnake(str) {
+  return str.replace(/[A-Z]/g, function (match) {
+    return "_" + match.toLowerCase();
+  });
+};
+var getDefaultPagination = function getDefaultPagination() {
+  return {
+    "pagination": {
+      "offset": 0,
+      "limit": 10,
+      "sortBy": "createdTime",
+      "order": "ASC"
+    }
+  };
+};
 module.exports = {
   errorResponder: errorResponder,
   errorLogger: errorLogger,
@@ -113,5 +133,8 @@ module.exports = {
   getResponseInfo: getResponseInfo,
   throwError: throwError,
   sendResponse: sendResponse,
-  appCache: appCache
+  appCache: appCache,
+  snakeToCamel: snakeToCamel,
+  camelToSnake: camelToSnake,
+  getDefaultPagination: getDefaultPagination
 };

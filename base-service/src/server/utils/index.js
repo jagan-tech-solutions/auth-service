@@ -97,6 +97,25 @@ const errorResponder = (error, request, response, next) => {
   response.status(status).send(getErrorResponse(error.code, error.message));
 };
 
+const snakeToCamel=(str)=> {
+  return str.replace(/_([a-z])/g, function(match, group1) {
+    return group1.toUpperCase();
+  });
+}
+
+const camelToSnake=(str)=> {
+  return str.replace(/[A-Z]/g, function(match) {
+    return "_" + match.toLowerCase();
+  });
+}
+const getDefaultPagination=()=>{
+return {"pagination":{
+  "offset":0,
+  "limit":10,
+  "sortBy":"createdTime",
+  "order":"ASC"
+}}
+}
 module.exports = {
   errorResponder,
   errorLogger,
@@ -105,4 +124,7 @@ module.exports = {
   throwError,
   sendResponse,
   appCache,
+  snakeToCamel,
+  camelToSnake,
+  getDefaultPagination
 };
