@@ -28,7 +28,22 @@ module.exports = {
   app: {
     port: parseInt(process.env.APP_PORT) || 8080,
     host: HOST,
+    git_token: "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",
     contextPath: process.env.CONTEXT_PATH || "/egov-bff-service"
+  },
+  //lowcode-apps/mdms
+  git: {
+    //  repoOwner :"lowcode-apps",
+    "default": {
+      repoOwner: "ejagankumar",
+      repoName: "mdms",
+      repoBranch: "master"
+    },
+    mdms: {
+      repoOwner: "ejagankumar",
+      repoName: "mdms",
+      repoBranch: "master"
+    }
   },
   configs: {
     DATA_CONFIG_URLS: 'file:///Users/klrao/Documents/pdf-config/data-config/consolidatedreceipt.json',

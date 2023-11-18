@@ -10,9 +10,10 @@ var logger = require("morgan");
 var config = require("./config");
 var musterRouter = require("./routes/muster");
 var authRouter = require("./routes/auth");
-var userRouter = require("./routes/userv1");
+var userRouter = require("./routes/userV1");
+var mdmsRouter = require("./routes/mdmsV1");
 
-var mdmsRouter = require("./routes/mdmsv1");
+var persisterRouter = require("./routes/persisterV1");
 var searcherRouter = require("./routes/searcher");
 var { listenConsumer } = require("./kafka/consumer");
 const {
@@ -48,6 +49,7 @@ app.use(cacheMiddleware);
 app.use(config.app?.contextPath + "/muster", musterRouter);
 app.use(config.app?.contextPath + "/auth", authRouter);
 app.use(config.app?.contextPath + "/user/v1", userRouter);
+app.use(config.app?.contextPath + "/persister/v1",persisterRouter );
 
 app.use(config.app?.contextPath + "/mdms/v1", mdmsRouter);
 

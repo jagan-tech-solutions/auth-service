@@ -8,6 +8,7 @@ function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _ty
 function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 var logger = require("../logger").logger;
 var NodeCache = require("node-cache");
+var config = require("../config");
 
 /*
   stdTTL: (default: 0) the standard ttl as number in seconds for every generated
@@ -126,6 +127,13 @@ var getDefaultPagination = function getDefaultPagination() {
     }
   };
 };
+var getGitRepoDetails = function getGitRepoDetails() {
+  var key = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "default";
+  if (config.git[key]) {
+    return config.git[key];
+  }
+  return config.git["default"];
+};
 module.exports = {
   errorResponder: errorResponder,
   errorLogger: errorLogger,
@@ -136,5 +144,6 @@ module.exports = {
   appCache: appCache,
   snakeToCamel: snakeToCamel,
   camelToSnake: camelToSnake,
-  getDefaultPagination: getDefaultPagination
+  getDefaultPagination: getDefaultPagination,
+  getGitRepoDetails: getGitRepoDetails
 };

@@ -1,5 +1,6 @@
 const logger = require("../logger").logger;
 const NodeCache = require("node-cache");
+const config = require("../config");
 
 /*
   stdTTL: (default: 0) the standard ttl as number in seconds for every generated
@@ -116,6 +117,13 @@ return {"pagination":{
   "order":"ASC"
 }}
 }
+
+const getGitRepoDetails = (key="default")=>{
+  if(config.git[key]){
+    return config.git[key]
+  }
+  return config.git["default"]
+}
 module.exports = {
   errorResponder,
   errorLogger,
@@ -126,5 +134,6 @@ module.exports = {
   appCache,
   snakeToCamel,
   camelToSnake,
-  getDefaultPagination
+  getDefaultPagination,
+  getGitRepoDetails
 };
