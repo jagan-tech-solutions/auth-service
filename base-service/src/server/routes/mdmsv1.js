@@ -8,7 +8,7 @@ const ORG = "jk-techsolutions";
 const REPO = "master-data";
 const BRANCH = "master";
 const { asyncMiddleware } = require("../middlewares/asyncMiddleware");
-const { throwError, sendResponse } = require("../utils");
+const { throwError, sendResponse, getMdmsURL } = require("../utils");
 const { httpRequest } = require("../api/request");
 const { log } = require("console");
 
@@ -21,10 +21,7 @@ router.post(
     const { name } = masterDetails?.[0] || {};
 
     const mdmsResponse = await httpRequest(
-      `${URL}/${ORG}/${REPO}/${BRANCH}/data/${tenantId?.replace(
-        ".",
-        "/"
-      )}/${moduleName}/${name}.json`,
+      `${URL}/${ORG}/${REPO}/${BRANCH}/data/${getMdmsURL(tenantId,moduleName,name)}`,
       {},
       {},
       "get"

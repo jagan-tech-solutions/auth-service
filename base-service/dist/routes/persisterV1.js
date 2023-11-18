@@ -22,7 +22,8 @@ var _require2 = require("../middlewares/asyncMiddleware"),
 var _require3 = require("../utils"),
   throwError = _require3.throwError,
   sendResponse = _require3.sendResponse,
-  getGitRepoDetails = _require3.getGitRepoDetails;
+  getGitRepoDetails = _require3.getGitRepoDetails,
+  getMdmsURL = _require3.getMdmsURL;
 var _require4 = require("@octokit/rest"),
   Octokit = _require4.Octokit;
 var _require5 = require("../logger"),
@@ -93,22 +94,23 @@ var createOrUpdate = /*#__PURE__*/function () {
 }();
 router.post("/create", asyncMiddleware( /*#__PURE__*/function () {
   var _ref2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(req, res, next) {
-    var path, content, message;
+    var key, content, path, message;
     return _regeneratorRuntime().wrap(function _callee2$(_context2) {
       while (1) switch (_context2.prev = _context2.next) {
         case 0:
-          path = "test/module/test122.json";
-          content = JSON.stringify(newObj);
-          message = "Added some data in" + path;
-          _context2.next = 5;
+          key = req.body.key; //to be removed
+          content = req.body.content; //to be removed
+          path = "data/".concat(getMdmsURL(content === null || content === void 0 ? void 0 : content.tenantId, content === null || content === void 0 ? void 0 : content.moduleName, content === null || content === void 0 ? void 0 : content.masterName));
+          message = "Added some data in " + path;
+          _context2.next = 6;
           return createOrUpdate({
             mode: "create",
-            key: "mdms",
+            key: key,
             path: path,
             content: content,
             message: message
           }, req, res);
-        case 5:
+        case 6:
         case "end":
           return _context2.stop();
       }
@@ -120,14 +122,14 @@ router.post("/create", asyncMiddleware( /*#__PURE__*/function () {
 }()));
 router.post("/update", asyncMiddleware( /*#__PURE__*/function () {
   var _ref3 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(req, res, next) {
-    var key, path, content, message;
+    var key, content, path, message;
     return _regeneratorRuntime().wrap(function _callee3$(_context3) {
       while (1) switch (_context3.prev = _context3.next) {
         case 0:
-          key = "mdms";
-          path = "test/module/test12.json";
-          content = JSON.stringify(newObj1);
-          message = "Added some data in" + path;
+          key = req.body.key; //to be removed
+          content = req.body.content; //to be removed
+          path = "data/".concat(getMdmsURL(content === null || content === void 0 ? void 0 : content.tenantId, content === null || content === void 0 ? void 0 : content.moduleName, content === null || content === void 0 ? void 0 : content.masterName));
+          message = "Updated some data in " + path;
           _context3.next = 6;
           return createOrUpdate({
             mode: "update",
@@ -148,14 +150,14 @@ router.post("/update", asyncMiddleware( /*#__PURE__*/function () {
 }()));
 router.post("/upsert", asyncMiddleware( /*#__PURE__*/function () {
   var _ref4 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4(req, res, next) {
-    var key, path, content, message;
+    var key, content, path, message;
     return _regeneratorRuntime().wrap(function _callee4$(_context4) {
       while (1) switch (_context4.prev = _context4.next) {
         case 0:
-          key = "mdms";
-          path = "test/module/test12.json";
-          content = JSON.stringify(newObj1);
-          message = "Added some data in" + path;
+          key = req.body.key; //to be removed
+          content = req.body.content; //to be removed
+          path = "data/".concat(getMdmsURL(content === null || content === void 0 ? void 0 : content.tenantId, content === null || content === void 0 ? void 0 : content.moduleName, content === null || content === void 0 ? void 0 : content.masterName));
+          message = "Upserted some data in " + path;
           _context4.next = 6;
           return createOrUpdate({
             mode: "upsert",

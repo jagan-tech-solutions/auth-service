@@ -10,7 +10,7 @@ var {
 } = require("../api");
 
 const { asyncMiddleware } = require("../middlewares/asyncMiddleware");
-const { throwError, sendResponse, getGitRepoDetails } = require("../utils");
+const { throwError, sendResponse, getGitRepoDetails, getMdmsURL } = require("../utils");
 const { Octokit } = require("@octokit/rest");
 const { logger } = require("../logger");
 const {
@@ -77,11 +77,13 @@ const createOrUpdate = async (payload, req, res) => {
 router.post(
   "/create",
   asyncMiddleware(async function (req, res, next) {
-    const path = "test/module/test122.json";
-    const content = JSON.stringify(newObj);
-    const message = "Added some data in" + path;
+
+    const key = req.body.key;//to be removed
+    const content = req.body.content;//to be removed
+    const path = `data/${getMdmsURL(content?.tenantId,content?.moduleName,content?.masterName)}`;
+    const message = "Added some data in " + path;
     await createOrUpdate(
-      { mode: "create", key: "mdms", path, content, message },
+      { mode: "create", key, path, content, message },
       req,
       res
     );
@@ -93,20 +95,21 @@ router.post(
 router.post(
   "/update",
   asyncMiddleware(async function (req, res, next) {
-    const key = "mdms";
-    const path = "test/module/test12.json";
-    const content = JSON.stringify(newObj1);
-    const message = "Added some data in" + path;
+
+    const key = req.body.key;//to be removed
+    const content = req.body.content;//to be removed
+    const path = `data/${getMdmsURL(content?.tenantId,content?.moduleName,content?.masterName)}`;
+    const message = "Updated some data in " + path;
    await createOrUpdate({ mode: "update", key, path, content, message }, req, res);
   })
 );
 router.post(
   "/upsert",
   asyncMiddleware(async function (req, res, next) {
-    const key = "mdms";
-    const path = "test/module/test12.json";
-    const content = JSON.stringify(newObj1);
-    const message = "Added some data in" + path;
+    const key = req.body.key;//to be removed
+    const content = req.body.content;//to be removed
+    const path = `data/${getMdmsURL(content?.tenantId,content?.moduleName,content?.masterName)}`;
+    const message = "Upserted some data in " + path;
 
    await  createOrUpdate({ mode: "upsert", key, path, content, message }, req, res);
   })

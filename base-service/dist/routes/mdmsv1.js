@@ -21,7 +21,8 @@ var _require = require("../middlewares/asyncMiddleware"),
   asyncMiddleware = _require.asyncMiddleware;
 var _require2 = require("../utils"),
   throwError = _require2.throwError,
-  sendResponse = _require2.sendResponse;
+  sendResponse = _require2.sendResponse,
+  getMdmsURL = _require2.getMdmsURL;
 var _require3 = require("../api/request"),
   httpRequest = _require3.httpRequest;
 var _require4 = require("console"),
@@ -38,7 +39,7 @@ router.post("/_search", asyncMiddleware( /*#__PURE__*/function () {
           _ref2 = (moduleDetails === null || moduleDetails === void 0 ? void 0 : moduleDetails[0]) || {}, moduleName = _ref2.moduleName, masterDetails = _ref2.masterDetails;
           _ref3 = (masterDetails === null || masterDetails === void 0 ? void 0 : masterDetails[0]) || {}, name = _ref3.name;
           _context.next = 6;
-          return httpRequest("".concat(URL, "/").concat(ORG, "/").concat(REPO, "/").concat(BRANCH, "/data/").concat(tenantId === null || tenantId === void 0 ? void 0 : tenantId.replace(".", "/"), "/").concat(moduleName, "/").concat(name, ".json"), {}, {}, "get");
+          return httpRequest("".concat(URL, "/").concat(ORG, "/").concat(REPO, "/").concat(BRANCH, "/data/").concat(getMdmsURL(tenantId, moduleName, name)), {}, {}, "get");
         case 6:
           mdmsResponse = _context.sent;
           response = {};

@@ -124,6 +124,13 @@ const getGitRepoDetails = (key="default")=>{
   }
   return config.git["default"]
 }
+
+const getMdmsURL=(tenantId,moduleName,masterName)=>{
+ return `${tenantId?.replace(
+    ".",
+    "/"
+  )}/${moduleName}/${masterName}.json`
+}
 module.exports = {
   errorResponder,
   errorLogger,
@@ -135,5 +142,6 @@ module.exports = {
   snakeToCamel,
   camelToSnake,
   getDefaultPagination,
-  getGitRepoDetails
+  getGitRepoDetails,
+  getMdmsURL
 };

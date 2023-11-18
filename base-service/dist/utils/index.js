@@ -134,6 +134,9 @@ var getGitRepoDetails = function getGitRepoDetails() {
   }
   return config.git["default"];
 };
+var getMdmsURL = function getMdmsURL(tenantId, moduleName, masterName) {
+  return "".concat(tenantId === null || tenantId === void 0 ? void 0 : tenantId.replace(".", "/"), "/").concat(moduleName, "/").concat(masterName, ".json");
+};
 module.exports = {
   errorResponder: errorResponder,
   errorLogger: errorLogger,
@@ -145,5 +148,6 @@ module.exports = {
   snakeToCamel: snakeToCamel,
   camelToSnake: camelToSnake,
   getDefaultPagination: getDefaultPagination,
-  getGitRepoDetails: getGitRepoDetails
+  getGitRepoDetails: getGitRepoDetails,
+  getMdmsURL: getMdmsURL
 };
